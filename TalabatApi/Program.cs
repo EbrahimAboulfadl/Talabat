@@ -1,11 +1,16 @@
 using Microsoft.EntityFrameworkCore;
+using Talabat.Core.Entities;
+using Talabat.Core.Repositories;
 using Talabat.Repository.Data;
+using Talabat.Repository.Data.DataSeed;
+using Talabat.Repository.Repositories;
+using TalabatApi.Helper;
 
 namespace TalabatApi
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -15,18 +20,43 @@ namespace TalabatApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            
+            builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+            builder.Services.AddAutoMapper(m=>m.AddProfile(new MappingProfiles()));
             builder.Services.AddDbContext<StoreContext>(
                 options=>options
                             .UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            using var Scope =app.Services.CreateScope(); 
+            var services =Scope.ServiceProvider;
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();  
+
+            try
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                var dbContext = services.GetRequiredService<StoreContext>();
+                await dbContext.Database.MigrateAsync();
+
+                //Important : Uncomment in the first time (empty database)
+                //await StoreContextSeed.SeedAsync(dbContext);
             }
+            catch (Exception ex) {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex,"An Error Occured during applying database migration");
+            
+            }
+    
+
+
+
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
 
             app.UseHttpsRedirection();
 

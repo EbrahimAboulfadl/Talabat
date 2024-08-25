@@ -1,0 +1,122 @@
+[
+    {
+        "Name": "Margherita Pizza",
+        "Description": "Classic pizza with fresh tomatoes, mozzarella, and basil.",
+        "ImageUrl": "/images/margherita-pizza.jpg",
+        "Price": 8.99,
+        "ProductBrandId": 1,
+        "ProductTypeId": 1
+    },
+    {
+        "Name": "Caesar Salad",
+        "Description": "Crisp romaine lettuce with Caesar dressing, croutons, and parmesan.",
+        "ImageUrl": "/images/caesar-salad.jpg",
+        "Price": 6.99,
+        "ProductBrandId": 2,
+        "ProductTypeId": 2
+    },
+    {
+        "Name": "BBQ Chicken Wings",
+        "Description": "Spicy BBQ chicken wings served with a side of ranch.",
+        "ImageUrl": "/images/bbq-chicken-wings.jpg",
+        "Price": 7.99,
+        "ProductBrandId": 3,
+        "ProductTypeId": 3
+    },
+    {
+        "Name": "Cheeseburger",
+        "Description": "Juicy beef patty with cheddar cheese, lettuce, tomato, and onion.",
+        "ImageUrl": "/images/cheeseburger.jpg",
+        "Price": 9.49,
+        "ProductBrandId": 4,
+        "ProductTypeId": 1
+    },
+    {
+        "Name": "Spaghetti Carbonara",
+        "Description": "Traditional Italian pasta with creamy sauce, pancetta, and parmesan.",
+        "ImageUrl": "/images/spaghetti-carbonara.jpg",
+        "Price": 10.99,
+        "ProductBrandId": 1,
+        "ProductTypeId": 1
+    },
+    {
+        "Name": "Chicken Alfredo",
+        "Description": "Fettuccine pasta in a rich Alfredo sauce with grilled chicken.",
+        "ImageUrl": "/images/chicken-alfredo.jpg",
+        "Price": 11.99,
+        "ProductBrandId": 1,
+        "ProductTypeId": 1
+    },
+    {
+        "Name": "Tiramisu",
+        "Description": "Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.",
+        "ImageUrl": "/images/tiramisu.jpg",
+        "Price": 5.99,
+        "ProductBrandId": 5,
+        "ProductTypeId": 4
+    },
+    {
+        "Name": "Margarita",
+        "Description": "Refreshing cocktail made with tequila, lime juice, and triple sec.",
+        "ImageUrl": "/images/margarita.jpg",
+        "Price": 7.50,
+        "ProductBrandId": 6,
+        "ProductTypeId": 5
+    },
+    {
+        "Name": "Pepperoni Pizza",
+        "Description": "Pizza topped with pepperoni slices, mozzarella, and tomato sauce.",
+        "ImageUrl": "/images/pepperoni-pizza.jpg",
+        "Price": 9.99,
+        "ProductBrandId": 1,
+        "ProductTypeId": 1
+    },
+    {
+        "Name": "Fish Tacos",
+        "Description": "Grilled fish served in soft tortillas with fresh salsa and lime.",
+        "ImageUrl": "/images/fish-tacos.jpg",
+        "Price": 8.49,
+        "ProductBrandId": 7,
+        "ProductTypeId": 3
+    },
+    {
+        "Name": "Chocolate Lava Cake",
+        "Description": "Warm chocolate cake with a molten center, served with vanilla ice cream.",
+        "ImageUrl": "/images/chocolate-lava-cake.jpg",
+        "Price": 6.99,
+        "ProductBrandId": 5,
+        "ProductTypeId": 4
+    },
+    {
+        "Name": "Grilled Salmon",
+        "Description": "Fresh salmon fillet grilled to perfection, served with vegetables.",
+        "ImageUrl": "/images/grilled-salmon.jpg",
+        "Price": 14.99,
+        "ProductBrandId": 8,
+        "ProductTypeId": 3
+    },
+    {
+        "Name": "Chicken Quesadilla",
+        "Description": "Grilled chicken and cheese in a warm tortilla, served with salsa and sour cream.",
+        "ImageUrl": "/images/chicken-quesadilla.jpg",
+        "Price": 7.99,
+        "ProductBrandId": 7,
+        "ProductTypeId": 2
+    },
+    {
+        "Name": "Cappuccino",
+        "Description": "Espresso coffee topped with steamed milk foam.",
+        "ImageUrl": "/images/cappuccino.jpg",
+        "Price": 3.50,
+        "ProductBrandId": 9,
+        "ProductTypeId": 6
+    },
+    {
+        "Name": "Vanilla Milkshake",
+        "Description": "Creamy milkshake made with vanilla ice cream and topped with whipped cream.",
+        "ImageUrl": "/images/vanilla-milkshake.jpg",
+        "Price": 4.50,
+        "ProductBrandId": 10,
+        "ProductTypeId": 6
+    }
+]
