@@ -19,10 +19,10 @@ namespace Talabat.Repository.Repositories
         {
             this.dbContext = dbContext;
         }
-        public async Task<IEnumerable<T>> GetAllAsync()=> await dbContext.Set<T>().ToListAsync();
+        public async Task<IReadOnlyList<T>> GetAllAsync()=> await dbContext.Set<T>().ToListAsync();
         public async Task<T> GetByIdAsync(int id) => await dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
  
-        public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISpecification<T> specification)
+        public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISpecification<T> specification)
         {
             return await ApplySpecification(specification).ToListAsync();
 

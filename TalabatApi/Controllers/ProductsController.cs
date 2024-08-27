@@ -16,15 +16,22 @@ namespace TalabatApi.Controllers
     {
         private readonly IGenericRepository<Product> productsRepository;
         private readonly IMapper mapper;
+        private readonly IGenericRepository<ProductType> typesRepository;
+        private readonly IGenericRepository<ProductBrand> brandsRepository;
 
-        public ProductsController(IGenericRepository<Product> productsRepository, IMapper mapper)
+        public ProductsController(IGenericRepository<Product> productsRepository,
+                                  IMapper mapper,
+                                  IGenericRepository<ProductType> typesRepository,
+                                   IGenericRepository<ProductBrand> brandsRepository)
         {
             this.productsRepository = productsRepository;
             this.mapper = mapper;
+            this.typesRepository = typesRepository;
+            this.brandsRepository = brandsRepository;
         }
         #region Without Specificaation
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetAll()
         {
 
             var products = await productsRepository.GetAllAsync();
@@ -33,11 +40,31 @@ namespace TalabatApi.Controllers
         }
         [HttpGet("{id:int}")]
 
-        public async Task<IActionResult> GetProductById(int id)
+        public async Task<ActionResult<Product>> GetProductById(int id)
         {
 
             var product = await productsRepository.GetByIdAsync(id);
             return Ok(product);
+
+        }
+
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductType>>>GetAllTypesAsync()
+        {
+
+            var types = await typesRepository.GetAllAsync();
+            return Ok(types);
+
+        }
+
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetAllBrandsAsync()
+        {
+
+            var brands = await brandsRepository.GetAllAsync();
+            return Ok(brands);
 
         }
         #endregion
@@ -45,18 +72,19 @@ namespace TalabatApi.Controllers
 
         [HttpGet("ProductsWithSpecs")]
 
-        public async Task<IActionResult> GetAllWithSpecAsync()
+        public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetAllWithSpecAsync([FromQuery]ProductsSpecsParams? specsParams )
         {
-            ProductWithBrandAndTypeSpecification specification = new();
+            ProductWithBrandAndTypeSpecification specification = new(specsParams);
             var products = await productsRepository.GetAllWithSpecAsync(specification);
-            var prdouctsDto = mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+            var prdouctsDto = mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
             return Ok(prdouctsDto);
 
         }
 
+
         [HttpGet("ProductsWithSpecs/{name:alpha}")]
 
-        public async Task<IActionResult> GetProductByName(string name)
+        public async Task<ActionResult<ProductDto>> GetProductByName(string name)
         {
             ProductWithBrandAndTypeSpecification specification = new(p => p.Name.Contains(name));
             var product = await productsRepository.GetOneWithSpecAsync(specification);

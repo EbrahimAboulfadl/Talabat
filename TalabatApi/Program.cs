@@ -22,6 +22,8 @@ namespace TalabatApi
             builder.Services.AddSwaggerGen();
             
             builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+            builder.Services.AddScoped<IGenericRepository<ProductBrand>, GenericRepository<ProductBrand>>();
+            builder.Services.AddScoped<IGenericRepository<ProductType>, GenericRepository<ProductType>>();
             builder.Services.AddAutoMapper(m=>m.AddProfile(new MappingProfiles()));
             builder.Services.AddDbContext<StoreContext>(
                 options=>options

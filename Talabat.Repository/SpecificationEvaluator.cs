@@ -24,6 +24,17 @@ namespace Talabat.Repository
                     query =  query.Where(specification.Criteria);
 
                 }
+
+                if (specification.OrderBy is not null)
+                {
+
+                    query = query.OrderBy(specification.OrderBy);
+                }
+                if (specification.OrderByDesc is not null)
+                {
+
+                    query = query.OrderByDescending(specification.OrderByDesc);
+                }
                 query = specification.Includes.Aggregate(query,(query, includeExpression)=>query.Include(includeExpression));
             }
             return query;

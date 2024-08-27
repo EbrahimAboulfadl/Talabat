@@ -8,9 +8,15 @@ using Talabat.Core.Entities;
 
 namespace Talabat.Core.Specifications
 {
+    public enum OrderType {
+    Asc, Desc
+    
+    }
     public class BaseSpecification<T> : ISpecification<T> where T : BaseEntity
     {
         public Expression<Func<T, bool>> Criteria { get; set; }
+       public Expression<Func<T, object>> OrderBy { get; set; }
+       public Expression<Func<T, object>> OrderByDesc { get; set; }
         public List<Expression<Func<T, object>>> Includes { get; set; } = new();
 
         public BaseSpecification()
@@ -21,5 +27,14 @@ namespace Talabat.Core.Specifications
         {
             Criteria = criteria;
         }
+
+        public void AddOrderBy(Expression<Func<T, object>> orderBy) { 
+         OrderBy = orderBy;
+        
+        }  public void AddOrderByDesc(Expression<Func<T, object>> orderByDesc) { 
+         OrderByDesc = orderByDesc;
+        
+        } 
+        
     }
 }
