@@ -7,6 +7,7 @@ using Talabat.Core.Repositories;
 using Talabat.Core.Specifications;
 using Talabat.Repository.Repositories;
 using TalabatApi.DTOs;
+using TalabatApi.Helper;
 
 namespace TalabatApi.Controllers
 {  
@@ -72,14 +73,16 @@ namespace TalabatApi.Controllers
 
         [HttpGet("ProductsWithSpecs")]
 
-        public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetAllWithSpecAsync([FromQuery]ProductsSpecsParams? specsParams )
+        public async Task<ActionResult<Pagination<ProductDto>>> GetAllWithSpecAsync([FromQuery]ProductsSpecsParams specsParams )
         {
             ProductWithBrandAndTypeSpecification specification = new(specsParams);
             var products = await productsRepository.GetAllWithSpecAsync(specification);
             var prdouctsDto = mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
-            return Ok(prdouctsDto);
+            var count = await productsRepository.GetCountSpecAsync(new ProductWithFilterationForCount(specsParams));
 
-        }
+            return Ok(new Pagination<ProductDto>(specsParams.PageSize, specsParams.PageIndex, prdouctsDto , count));
+
+        }   
 
 
         [HttpGet("ProductsWithSpecs/{name:alpha}")]

@@ -32,6 +32,8 @@ namespace Talabat.Core.Specifications
                 }
             }
 
+            ApplyPagination(specsParams.PageSize * (specsParams.PageIndex-1) , specsParams.PageSize);
+
         }   
         
         public ProductWithBrandAndTypeSpecification(Expression<Func<Product,bool>> criteria ) :base(criteria)
