@@ -1,9 +1,14 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using Talabat.Core.Entities;
+using Talabat.Core.Entities.Identity;
 using Talabat.Core.Repositories;
 using Talabat.Repository.Data;
 using Talabat.Repository.Data.DataSeed;
+using Talabat.Repository.Identity;
 using Talabat.Repository.Repositories;
+using TalabatApi.Extensions;
 using TalabatApi.Helper;
 
 namespace TalabatApi
@@ -20,14 +25,25 @@ namespace TalabatApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
+
             builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
             builder.Services.AddScoped<IGenericRepository<ProductBrand>, GenericRepository<ProductBrand>>();
             builder.Services.AddScoped<IGenericRepository<ProductType>, GenericRepository<ProductType>>();
-            builder.Services.AddAutoMapper(m=>m.AddProfile(new MappingProfiles()));
+            builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+            builder.Services.AddAutoMapper(m => m.AddProfile(new MappingProfiles()));
             builder.Services.AddDbContext<StoreContext>(
-                options=>options
+                options => options
                             .UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+            builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(options => {
+                var connection = builder.Configuration.GetConnectionString("Redis");
+                return ConnectionMultiplexer.Connect(connection);
+
+            });
+
+            builder.Services.AddIdentityService(builder.Configuration);
+     
 
             var app = builder.Build();
 
@@ -39,9 +55,12 @@ namespace TalabatApi
             {
                 var dbContext = services.GetRequiredService<StoreContext>();
                 await dbContext.Database.MigrateAsync();
+                var identityDbContext = services.GetRequiredService<AppIdentityDbContext>();
+                await identityDbContext.Database.MigrateAsync();
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
-                //Important : Uncomment in the first time (empty database)
-                //await StoreContextSeed.SeedAsync(dbContext);
+                await AppIdentityDbSeed.UserSeedAsync(userManager);
+                await StoreContextSeed.SeedAsync(dbContext);
             }
             catch (Exception ex) {
                 var logger = loggerFactory.CreateLogger<Program>();
@@ -61,7 +80,8 @@ namespace TalabatApi
                 }
 
             app.UseHttpsRedirection();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

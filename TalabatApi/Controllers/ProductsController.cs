@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -31,7 +34,10 @@ namespace TalabatApi.Controllers
             this.brandsRepository = brandsRepository;
         }
         #region Without Specificaation
+
+
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetAll()
         {
 

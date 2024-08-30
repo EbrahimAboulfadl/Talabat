@@ -23,6 +23,10 @@ namespace Talabat.Core.Specifications
         }
         public int PageIndex { get; set; } = 1;
 
+        private string? search;
+
+        public string? Search { get { return search; } set { search = value?.ToLower(); } }
+
     
     }
 }
