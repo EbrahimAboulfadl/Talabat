@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Talabat.Core.Entities.Identity
+﻿namespace TalabatApi.DTOs
 {
-    public class Address
+    public class AddressDto
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -13,11 +11,5 @@ namespace Talabat.Core.Entities.Identity
         public string Street { get; set; }
 
         public string Country { get; set; }
-
-        [ForeignKey("User")]
-        public string UserId { get; set; }
-       public AppUser User { get; set; }
-
-
     }
 }
